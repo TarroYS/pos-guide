@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tarro POS 教程 · 食客通点餐电脑</title>
+<meta name="description" content="Tarro POS 点餐电脑操作教程：点菜、收款、退款、快速收款、订单、设置、获取帮助。">
+<meta name="theme-color" content="#5b2be0">
+<link rel="icon" href="data:,">
+<style>
+:root{--purple:#5b2be0;--purple-dk:#3a1696;--mint:#4ade80;--cream:#fff8e7;--ink:#261654;--grey:#6f6886;--lilac:#ede6ff;--card:#fff}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%}
+body{margin:0;font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans CJK SC","Helvetica Neue",Arial,sans-serif;background:var(--cream);color:var(--ink);line-height:1.5}
+.wrap{max-width:600px;margin:0 auto;padding:0 18px}
+.hdr{background:var(--purple);color:#fff;padding:22px 0 20px}
+.brand{display:flex;align-items:baseline;gap:8px}.wm{font-weight:900;font-size:34px;letter-spacing:-1px;position:relative}
+.wm:before{content:"";position:absolute;left:.3em;top:-.05em;width:.22em;height:.22em;border-radius:50%;background:var(--mint)}
+.pos{color:var(--mint);font-weight:800;font-size:20px}.hdr .sub{opacity:.85;font-size:14px;margin-top:4px}
+.intro{padding:26px 0 8px}.intro h1{font-size:26px;margin:0 0 6px;line-height:1.25}.intro p{margin:0 0 4px;color:var(--grey)}.intro .en{font-size:13px}
+.group{margin-top:22px}.group h2{font-size:15px;color:var(--grey);font-weight:600;letter-spacing:.04em;margin:0 0 10px;text-transform:uppercase}
+.group h2 span{font-weight:500;opacity:.7;margin-left:6px;text-transform:none}
+.card{display:flex;gap:14px;background:var(--card);border-radius:18px;padding:12px;margin:0 0 12px;box-shadow:0 2px 10px rgba(38,22,84,.07);scroll-margin-top:16px;transition:box-shadow .3s}
+.card.hl{box-shadow:0 0 0 3px var(--purple),0 6px 20px rgba(91,43,224,.25)}
+.thumb{position:relative;flex:0 0 96px;width:96px;height:170px;border-radius:12px;overflow:hidden;background:var(--purple);display:block}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.thumb .play{position:absolute;left:50%;top:50%;width:44px;height:44px;margin:-22px 0 0 -22px;border-radius:50%;background:rgba(255,255,255,.92);color:var(--purple);display:flex;align-items:center;justify-content:center;font-size:18px;padding-left:4px;box-shadow:0 2px 8px rgba(0,0,0,.25)}
+.thumb .dur{position:absolute;right:6px;bottom:6px;background:rgba(0,0,0,.6);color:#fff;font-size:11px;padding:2px 6px;border-radius:6px;font-variant-numeric:tabular-nums}
+.body{flex:1;min-width:0;display:flex;flex-direction:column}
+.num{display:inline-block;background:var(--purple);color:#fff;font-weight:800;font-size:12px;padding:2px 8px;border-radius:7px;letter-spacing:.05em;align-self:flex-start}
+.card h3{margin:8px 0 2px;font-size:19px;line-height:1.25}.card .en{margin:0;font-size:12px;color:var(--grey)}
+.card .when{margin:8px 0 0;font-size:13px;color:var(--ink)}.card .when b{color:var(--grey);font-weight:500}
+.actions{margin-top:auto;padding-top:10px;display:flex;gap:8px}
+.btn{border:0;border-radius:10px;padding:8px 12px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit}
+.btn.watch{background:var(--purple);color:#fff}.btn.link{background:var(--lilac);color:var(--purple)}
+.support{margin:30px 0 10px;background:var(--purple);color:#fff;border-radius:18px;padding:20px}
+.support h2{margin:0 0 6px;font-size:20px}.support p{margin:0 0 10px;opacity:.9;font-size:14px}
+.support .row{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.support a{color:#fff;background:rgba(255,255,255,.14);padding:8px 12px;border-radius:10px;text-decoration:none;font-size:14px;font-weight:600}
+.support .k{color:var(--mint)}
+footer{text-align:center;color:var(--grey);font-size:12px;padding:20px 0 40px}
+.player{position:fixed;inset:0;background:#0f0a1f;z-index:50;display:flex;flex-direction:column}
+.player[hidden]{display:none}
+.player-top{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;color:#fff;padding-top:calc(12px + env(safe-area-inset-top))}
+.player-top span{font-weight:700;font-size:16px}.player-top button{background:rgba(255,255,255,.15);color:#fff;border:0;border-radius:10px;padding:8px 12px;font-size:14px;font-family:inherit}
+.player video{flex:1;min-height:0;width:100%;background:#000;object-fit:contain}
+.player-bottom{padding:12px 16px calc(14px + env(safe-area-inset-bottom));display:flex;gap:8px}
+.player-bottom button{flex:1;background:var(--lilac);color:var(--purple);border:0;border-radius:10px;padding:11px;font-size:14px;font-weight:600;font-family:inherit}
+.toast{position:fixed;left:50%;bottom:40px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 16px;border-radius:12px;font-size:14px;z-index:60;opacity:0;transition:opacity .25s;pointer-events:none}
+.toast.on{opacity:1}
+</style>
+</head>
+<body>
+<header class="hdr"><div class="wrap">
+  <div class="brand"><span class="wm">tarro</span><span class="pos">POS</span></div>
+  <div class="sub">食客通点餐电脑 · 操作教程 · Tarro POS tutorials</div>
+</div></header>
+<main class="wrap">
+  <section class="intro">
+    <h1>想看哪个，点哪个</h1>
+    <p>每条视频 1–3 分钟，只讲一件事。忘了怎么操作，随时回来看。</p>
+    <p class="en">Short how-to videos for Tarro POS. Tap any card to watch — come back any time.</p>
+  </section>
+    <section class="group"><h2>每天都用<span>Daily tasks</span></h2>
+      <article class="card" id="order" data-num="01" data-title="点菜与选项" data-video="videos/01-order.mp4" data-poster="videos/01-order.jpg">
+        <a class="thumb" href="videos/01-order.mp4"><img src="videos/01-order.jpg" alt="点菜与选项" loading="lazy"><span class="play">▶</span><span class="dur">2:37</span></a>
+        <div class="body">
+          <span class="num">01</span>
+          <h3>点菜与选项</h3>
+          <p class="en">Build an order: items, sizes &amp; modifiers</p>
+          <p class="when"><b>适用：</b>客人点菜、选份量、加配料</p>
+          <div class="actions"><button class="btn watch" type="button">▶ 观看</button><button class="btn link" type="button">复制链接</button></div>
+        </div>
+      </article>
+      <article class="card" id="qty" data-num="02" data-title="数量、备注与改价" data-video="videos/02-qty-note-price.mp4" data-poster="videos/02-qty-note-price.jpg">
+        <a class="thumb" href="videos/02-qty-note-price.mp4"><img src="videos/02-qty-note-price.jpg" alt="数量、备注与改价" loading="lazy"><span class="play">▶</span><span class="dur">2:18</span></a>
+        <div class="body">
+          <span class="num">02</span>
+          <h3>数量、备注与改价</h3>
+          <p class="en">Quantity, notes &amp; price changes</p>
+          <p class="when"><b>适用：</b>改数量、写过敏备注、打折改价</p>
+          <div class="actions"><button class="btn watch" type="button">▶ 观看</button><button class="btn link" type="button">复制链接</button></div>
+        </div>
+      </article>
+      <article class="card" id="checkout" data-num="03" data-title="收款" data-video="videos/03-checkout.mp4" data-poster="videos/03-checkout.jpg">
+        <a class="thumb" href="videos/03-checkout.mp4"><img src="videos/03-checkout.jpg" alt="收款" loading="lazy"><span class="play">▶</span><span class="dur">1:47</span></a>
+        <div class="body">
+          <span class="num">03</span>
+          <h3>收款</h3>
+          <p class="en">Checkout: cash, card, change &amp; split payments</p>
+          <p class="when"><b>适用：</b>现金、刷卡、找零、分开付</p>
+          <div class="actions"><button class="btn watch" type="button">▶ 观看</button><button class="btn link" type="button">复制链接</button></div>
+        </div>
+      </article>
+      <article class="card" id="quickpay" data-num="04" data-title="快速收款" data-video="videos/04-quick-pay.mp4" data-poster="videos/04-quick-pay.jpg">
+        <a class="thumb" href="videos/04-quick-pay.mp4"><img src="videos/04-quick-pay.jpg" alt="快速收款" loading="lazy"><span class="play">▶</span><span class="dur">0:52</span></a>
+        <div class="body">
+          <span class="num">04</span>
+          <h3>快速收款</h3>
+          <p class="en">Quick Pay: take a payment without an order</p>
+          <p class="when"><b>适用：</b>客人只买一杯饮料，不用开单</p>
+          <div class="actions"><button class="btn watch" type="button">▶ 观看</button><button class="btn link" type="button">复制链接</button></div>
+        </div>
+      </article>
+    </section>
+    <section class="group"><h2>订单与退款<span>Orders & refunds</span></h2>
+      <article class="card" id="orders" data-num="05" data-title="查看订单与单号" data-video="videos/05-orders.mp4" data-poster="videos/05-orders.jpg">
+        <a class="thumb" href="videos/05-orders.mp4"><img src="videos/05-orders.jpg" alt="查看订单与单号" loading="lazy"><span class="play">▶</span><span class="dur">0:59</span></a>
+        <div class="body">
+          <span class="num">05</span>
+          <h3>查看订单与单号</h3>
+          <p class="en">Orders list &amp; what #P / #C / #O mean</p>
+          <p class="when"><b>适用：</b>找单，看 #P / #C / #O 是什么意思</p>
+          <div class="actions"><button class="btn watch" type="button">▶ 观看</button><button class="btn link" type="button">复制链接</button></div>
+        </div>
+      </article>
+      <article class="card" id="refund" data-num="06" data-title="作废与退款" data-video="videos/06-void-refund.mp4" data-poster="videos/06-void-refund.jpg">
+        <a class="thumb" href="videos/06-void-refund.mp4"><img src="videos/06-void-refund.jpg" alt="作废与退款" loading="lazy"><span class="play">▶</span><span class="dur">1:38</span></a>
+        <div class="body">
+          <span class="num">06</span>
+          <h3>作废与退款</h3>
+          <p class="en">Void an unpaid order / refund a paid order</p>
+          <p class="when"><b>适用：</b>客人退单、取消订单</p>
+          <div class="actions"><button class="btn watch" type="button">▶ 观看</button><button class="btn link" type="button">复制链接</button></div>
+        </div>
+      </article>
+    </section>
+    <section class="group"><h2>设置与帮助<span>Settings & help</span></h2>
+      <article class="card" id="settings" data-num="07" data-title="切换语言与点餐界面设置" data-video="videos/07-language-settings.mp4" data-poster="videos/07-language-settings.jpg">
+        <a class="thumb" href="videos/07-language-settings.mp4"><img src="videos/07-language-settings.jpg" alt="切换语言与点餐界面设置" loading="lazy"><span class="play">▶</span><span class="dur">1:03</span></a>
+        <div class="body">
+          <span class="num">07</span>
+          <h3>切换语言与点餐界面设置</h3>
+          <p class="en">Language, menu refresh &amp; font size</p>
+          <p class="when"><b>适用：</b>换英文、刷新菜单、字体太小</p>
+          <div class="actions"><button class="btn watch" type="button">▶ 观看</button><button class="btn link" type="button">复制链接</button></div>
+        </div>
+      </article>
+      <article class="card" id="help" data-num="08" data-title="获取帮助" data-video="videos/08-get-help.mp4" data-poster="videos/08-get-help.jpg">
+        <a class="thumb" href="videos/08-get-help.mp4"><img src="videos/08-get-help.jpg" alt="获取帮助" loading="lazy"><span class="play">▶</span><span class="dur">0:53</span></a>
+        <div class="body">
+          <span class="num">08</span>
+          <h3>获取帮助</h3>
+          <p class="en">How to reach Tarro support from the POS</p>
+          <p class="when"><b>适用：</b>找我们：在线聊天、客服部、技术部</p>
+          <div class="actions"><button class="btn watch" type="button">▶ 观看</button><button class="btn link" type="button">复制链接</button></div>
+        </div>
+      </article>
+    </section>
+  <section class="support" id="support">
+    <h2>有问题？找我们</h2>
+    <p>企业微信直接给我们发消息，我们会一直监控。也可以在 POS 里点左下角「获取帮助」。</p>
+    <div class="row">
+      <a href="tel:9172852220"><span class="k">客服部</span> 917-285-2220</a>
+      <a href="tel:6465686232"><span class="k">技术部</span> 646-568-6232</a>
+    </div>
+  </section>
+</main>
+<footer>Tarro POS · 食客通 · 更新 2026-11-06</footer>
+<div id="player" class="player" hidden>
+  <div class="player-top"><span id="ptitle"></span><button id="pclose" type="button">✕ 关闭</button></div>
+  <video id="pvideo" controls playsinline webkit-playsinline="true" x5-playsinline="true" x5-video-player-type="h5-page" preload="metadata"></video>
+  <div class="player-bottom"><button id="pcopy" type="button">复制这条视频的链接 · Copy link</button></div>
+</div>
+<div id="toast" class="toast"></div>
+<script>
+// ---- settings --------------------------------------------------------------
+var TARRO_GA4_ID = "";       // Google Analytics 4 measurement id, e.g. "G-XXXXXXXXXX". "" = off
+var TARRO_CLARITY_ID = "";   // Microsoft Clarity project id, e.g. "abcd1234ef". "" = off
+// Link conventions: ?src=qr (sticker, automatic) / ?src=wecom (links you paste) and ?c=<client code>
+// e.g. https://…/index.html?src=wecom&c=golden-dragon#refund
+// ----------------------------------------------------------------------------
+(function(){
+  var cards=[].slice.call(document.querySelectorAll('.card'));
+  var player=document.getElementById('player'), video=document.getElementById('pvideo'), ptitle=document.getElementById('ptitle');
+  var current=null, toastEl=document.getElementById('toast');
+  function toast(msg){toastEl.textContent=msg;toastEl.classList.add('on');setTimeout(function(){toastEl.classList.remove('on')},1800)}
+  // who / where from: ?src=qr|wecom and ?c=<client code>, remembered for the session
+  function qp(k){ var m=location.search.match(new RegExp('[?&]'+k+'=([^&#]*)')); return m?decodeURIComponent(m[1].replace(/\+/g,' ')):''; }
+  var ctx={src:'',client:''};
+  try{ ctx.src=qp('src')||sessionStorage.getItem('tarro_src')||''; ctx.client=qp('c')||sessionStorage.getItem('tarro_c')||'';
+       if(ctx.src) sessionStorage.setItem('tarro_src',ctx.src); if(ctx.client) sessionStorage.setItem('tarro_c',ctx.client); }catch(e){}
+  function track(name,id){
+    try{ if(window.gtag){ gtag('event',name,{video_id:id,src:ctx.src||'direct',client:ctx.client||'unknown'}); } }catch(e){}
+    try{ if(window.clarity){ clarity('set','video',id); clarity('event',name+'_'+id); } }catch(e){}
+  }
+  function openCard(card, autoplay){
+    current=card.id; ptitle.textContent=card.getAttribute('data-num')+' · '+card.getAttribute('data-title');
+    video.poster=card.getAttribute('data-poster'); video.src=card.getAttribute('data-video'); player.hidden=false; document.body.style.overflow='hidden';
+    if(history.replaceState) history.replaceState(null,'','#'+card.id);
+    if(autoplay){ var p=video.play(); if(p&&p.catch) p.catch(function(){}); }
+  }
+  function closePlayer(){ video.pause(); video.removeAttribute('src'); video.load(); player.hidden=true; document.body.style.overflow=''; current=null; }
+  document.getElementById('pclose').addEventListener('click',closePlayer);
+  cards.forEach(function(card){
+    card.querySelector('.thumb').addEventListener('click',function(e){e.preventDefault();openCard(card,true)});
+    card.querySelector('.watch').addEventListener('click',function(){openCard(card,true)});
+    card.querySelector('.link').addEventListener('click',function(){copyLink(card.id)});
+  });
+  function copyLink(id){
+    var url=location.origin+location.pathname+location.search+'#'+id;
+    function done(){toast('链接已复制 · Link copied')}
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(url).then(done,function(){fallback(url)})}else{fallback(url)}
+    function fallback(u){var ta=document.createElement('textarea');ta.value=u;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');done()}catch(e){window.prompt('复制这个链接 / Copy this link:',u)}document.body.removeChild(ta)}
+  }
+  document.getElementById('pcopy').addEventListener('click',function(){if(current)copyLink(current)});
+  var fired={};
+  video.addEventListener('play',function(){ if(!fired['play:'+current]){fired['play:'+current]=1;track('video_play',current);} });
+  video.addEventListener('timeupdate',function(){ if(video.duration&&video.currentTime/video.duration>0.5&&!fired['half:'+current]){fired['half:'+current]=1;track('video_half',current);} });
+  video.addEventListener('ended',function(){ track('video_complete',current); });
+  // deep link: index.html#refund -> highlight + open
+  function fromHash(){ var h=(location.hash||'').replace('#','').replace(/-play$/,''); if(!h) return;
+    var c=document.getElementById(h); if(c&&c.classList.contains('card')){ cards.forEach(function(x){x.classList.remove('hl')}); c.classList.add('hl'); c.scrollIntoView({block:'center'}); if(current!==c.id) setTimeout(function(){openCard(c,false)},250); } }
+  fromHash(); window.addEventListener('hashchange',fromHash);
+  // analytics loaders (nothing loads when both ids are empty)
+  if(TARRO_GA4_ID){ var s=document.createElement('script'); s.async=true; s.src='https://www.googletagmanager.com/gtag/js?id='+TARRO_GA4_ID; document.head.appendChild(s);
+    window.dataLayer=window.dataLayer||[]; window.gtag=function(){dataLayer.push(arguments)}; gtag('js',new Date());
+    gtag('config',TARRO_GA4_ID,{src:ctx.src||'direct',client:ctx.client||'unknown'}); }
+  if(TARRO_CLARITY_ID){ (function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src='https://www.clarity.ms/tag/'+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,'clarity','script',TARRO_CLARITY_ID);
+    try{ clarity('set','src',ctx.src||'direct'); clarity('set','client',ctx.client||'unknown'); if(ctx.client) clarity('identify',ctx.client); }catch(e){} }
+})();
+</script>
+</body>
+</html>

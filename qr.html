@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>二维码贴纸 · Tarro POS 教程</title>
+<link rel="icon" href="data:,">
+<style>
+:root{--purple:#5b2be0;--mint:#4ade80;--cream:#fff8e7;--ink:#261654;--grey:#6f6886}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans CJK SC",Arial,sans-serif;background:#eee9f8;color:var(--ink)}
+.tools{max-width:720px;margin:0 auto;padding:18px}
+.tools h1{font-size:20px;margin:0 0 6px}.tools p{margin:0 0 12px;color:var(--grey);font-size:14px}
+label{display:block;font-size:13px;color:var(--grey);margin:10px 0 4px}
+input[type=text]{width:100%;padding:10px 12px;border:1px solid #cfc6e6;border-radius:10px;font-size:15px;font-family:inherit}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:10px}
+button,select{font-family:inherit;font-size:14px;border-radius:10px;border:1px solid #cfc6e6;padding:9px 14px;background:#fff;cursor:pointer}
+button.primary{background:var(--purple);color:#fff;border-color:var(--purple);font-weight:600}
+.sheet{max-width:720px;margin:0 auto;padding:0 18px 40px;display:flex;flex-wrap:wrap;gap:18px}
+.sticker{background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 18px rgba(38,22,84,.12);width:90mm;display:flex;flex-direction:column}
+.sticker .top{background:var(--purple);color:#fff;padding:8mm 6mm 5mm}
+.sticker .wm{font-weight:900;font-size:9mm;letter-spacing:-.3mm;line-height:1}.sticker .pos{color:var(--mint);font-weight:800;font-size:5mm;margin-left:2mm}
+.sticker .scan{font-size:7mm;font-weight:800;margin-top:3mm;line-height:1.2}.sticker .scan small{display:block;font-size:3.6mm;font-weight:600;opacity:.85;margin-top:1mm}
+.sticker .qr{padding:5mm 6mm 2mm;background:#fff;text-align:center}.sticker .qr svg{width:100%;height:auto;display:block}
+.sticker .url{font-size:3mm;color:var(--grey);text-align:center;padding:0 5mm 2mm;word-break:break-all}
+.sticker .foot{background:var(--cream);padding:4mm 6mm 5mm;font-size:3.6mm;line-height:1.4}.sticker .foot b{color:var(--purple)}
+.sticker.small{width:60mm}.sticker.small .top{padding:5mm 4mm 3mm}.sticker.small .wm{font-size:6mm}.sticker.small .scan{font-size:4.8mm}.sticker.small .scan small{font-size:2.6mm}
+.sticker.small .qr{padding:3mm 4mm 1mm}.sticker.small .url{font-size:2.2mm}.sticker.small .foot{font-size:2.8mm;padding:3mm 4mm}
+@media print{body{background:#fff}.tools{display:none}.sheet{padding:0;gap:10mm}.sticker{box-shadow:none;border:.3mm dashed #bbb;break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="tools">
+  <h1>二维码贴纸 · QR sticker</h1>
+  <p>贴在 POS 机旁边：员工扫一下就能看教程。链接默认是这个网站的首页，也可以改成某一条视频的链接（例如 …/index.html#refund）。</p>
+  <label>二维码链接 · URL</label>
+  <input type="text" id="url">
+  <div class="row">
+    <select id="size"><option value="">大 90mm</option><option value="small">小 60mm</option></select>
+    <button id="copies">每页 1 张 / 4 张</button>
+    <button class="primary" onclick="window.print()">打印 · Print</button>
+  </div>
+</div>
+<div class="sheet" id="sheet"></div>
+<script src="qr.js"></script>
+<script>
+(function(){
+  var input=document.getElementById('url'), sizeSel=document.getElementById('size'), sheet=document.getElementById('sheet'), copiesBtn=document.getElementById('copies');
+  var copies=1;
+  var base=location.href.replace(/qr\.html.*$/,'index.html?src=qr');
+  input.value=base;
+  function sticker(url,size){
+    var svg; try{ svg=QR.svg(url,{size:400,margin:3,color:'#261654'}); }catch(e){ svg='<p style="color:#c00;font-size:12px">链接太长，请缩短。</p>'; }
+    return '<div class="sticker '+size+'">'+
+      '<div class="top"><span class="wm">tarro</span><span class="pos">POS</span><div class="scan">扫码看教程<small>Scan for how-to videos</small></div></div>'+
+      '<div class="qr">'+svg+'</div>'+
+      '<div class="url">'+url.replace(/^https?:\/\//,'')+'</div>'+
+      '<div class="foot">点菜 · 收款 · 退款 · 快速收款 · 订单<br>有问题？企业微信联系我们，或点 POS 里的<b>「获取帮助」</b></div></div>';
+  }
+  function render(){ var h=''; for(var i=0;i<copies;i++) h+=sticker(input.value.trim(),sizeSel.value); sheet.innerHTML=h; }
+  input.addEventListener('input',render); sizeSel.addEventListener('change',render);
+  copiesBtn.addEventListener('click',function(){copies=copies===1?4:1;render()});
+  render();
+})();
+</script>
+</body>
+</html>
