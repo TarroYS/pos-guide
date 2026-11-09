@@ -184,7 +184,8 @@ var TARRO_CLARITY_ID = "";   // Microsoft Clarity project id, e.g. "abcd1234ef".
     try{ if(window.clarity){ clarity('set','video',id); clarity('event',name+'_'+id); } }catch(e){}
   }
   function openCard(card, autoplay){
-    current=card.id; ptitle.textContent=card.getAttribute('data-num')+' · '+card.getAttribute('data-title');
+    current=card.id; fired={}; // each open of a video counts as one view
+    ptitle.textContent=card.getAttribute('data-num')+' · '+card.getAttribute('data-title');
     video.poster=card.getAttribute('data-poster'); video.src=card.getAttribute('data-video'); player.hidden=false; document.body.style.overflow='hidden';
     if(history.replaceState) history.replaceState(null,'','#'+card.id);
     if(autoplay){ var p=video.play(); if(p&&p.catch) p.catch(function(){}); }
