@@ -35,6 +35,7 @@ videos/*.jpg        poster images (title cards)
   - `TARRO_GA4_ID` — Google Analytics 4 measurement id (`G-…`): page views plus events `video_play`, `video_half`, `video_complete`, each with `video_id`, `src` and `client`. (To filter reports by `src`/`client`, register them as custom dimensions in GA4 → Admin → Custom definitions.)
   - `TARRO_CLARITY_ID` — Microsoft Clarity project id (free, includes session recordings so you can watch exactly what a client did on the page): custom tags `src`, `client`, `video` and events like `video_play_refund`, `video_complete_checkout`.
   - **Link conventions** make the numbers readable: the sticker already encodes `?src=qr`; for links you paste in WeCom use `?src=wecom&c=<client code>`, e.g. `https://…/index.html?src=wecom&c=golden-dragon#refund`. Then every play is attributed to a client and an entry path (sticker vs chat). The code is remembered for the session, and "复制链接" keeps it.
+  - **Internal devices:** open `https://tarroys.github.io/pos-guide/?internal=1` once in each browser the team uses (WeCom, WeChat and Safari/Chrome keep separate storage). From then on every visit from that browser is reported as client `internal`, even when it opens a client's link; exclude `internal` in reports. `?internal=0` removes the tag. A plain link with no code is reported as client `unknown`, source `direct`.
   - Nothing is sent while both ids are empty.
 
 ## 4. Suggested rollout (from the onboarding talk track)
