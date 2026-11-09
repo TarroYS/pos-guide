@@ -183,8 +183,8 @@ var TARRO_CLARITY_ID = "";   // Microsoft Clarity project id, e.g. "abcd1234ef".
   // later visit, whatever link it opens (?internal=0 removes the tag). The flag is stripped from the address
   // so "复制链接" never passes it on to a client.
   try{ var iv=qp('internal');
-       if(iv==='1'){ localStorage.setItem('tarro_internal','1'); toast('已标记为内部设备 · Marked as internal'); }
-       if(iv==='0'){ localStorage.removeItem('tarro_internal'); toast('已取消内部标记 · Internal tag removed'); }
+       if(iv==='1'){ localStorage.setItem('tarro_internal','1'); toast('Marked as internal for analytics'); }
+       if(iv==='0'){ localStorage.removeItem('tarro_internal'); toast('Internal tag for analytics removed'); }
        if(iv && history.replaceState){ history.replaceState(null,'',location.pathname+location.search.replace(/([?&])internal=[^&#]*&?/,'$1').replace(/[?&]$/,'')+location.hash); }
        if(localStorage.getItem('tarro_internal')==='1'){ ctx.client='internal'; ctx.src='internal'; } }catch(e){}
   function track(name,id){
