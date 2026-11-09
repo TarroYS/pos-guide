@@ -55,7 +55,7 @@ button.primary{background:var(--purple);color:#fff;border-color:var(--purple);fo
       '<div class="top"><span class="wm">tarro</span><span class="pos">POS</span><div class="scan">扫码看教程<small>Scan for how-to videos</small></div></div>'+
       '<div class="qr">'+svg+'</div>'+
       '<div class="url">'+url.replace(/^https?:\/\//,'')+'</div>'+
-      '<div class="foot">点菜 · 收款 · 退款 · 快速收款 · 订单<br>有问题？企业微信联系我们，或点 POS 里的<b>「获取帮助」</b></div></div>';
+      '<div class="foot">点菜 · 收款 · 退款 · 快速收款 · 订单<br>有问题？点 POS 里的<b>「获取帮助」</b>，或致电客服部 917-285-2220</div></div>';
   }
   function render(){ var h=''; for(var i=0;i<copies;i++) h+=sticker(input.value.trim(),sizeSel.value); sheet.innerHTML=h; }
   input.addEventListener('input',render); sizeSel.addEventListener('change',render);
